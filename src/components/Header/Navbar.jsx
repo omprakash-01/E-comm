@@ -4,10 +4,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,15 +35,24 @@ export default function Navbar() {
     };
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await signOut({ redirect: false });
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm "
+          ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
           : "bg-white/90 backdrop-blur-sm"
       }`}
     >
-      <nav className="w-full shadow-md  bg-white ">
+      <nav className="w-full shadow-sm border border-b bg-white ">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Desktop Layout */}
           <div className="hidden md:flex items-center justify-between h-20">
@@ -74,17 +87,25 @@ export default function Navbar() {
                 Admin
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-
             </div>
 
-            {/* Right: Login Button */}
+            {/* Right: Login/Logout Button */}
             <div>
-              <Link
-                href="/login"
-                className="inline-flex items-center px-6 py-2.5 bg-gray-900 text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300 hover:shadow-lg hover:shadow-gray-900/25 hover:-translate-y-0.5"
-              >
-                Sign In
-              </Link>
+              {session ? (
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center px-6 py-2.5 bg-red-600 text-white font-medium rounded-full hover:bg-red-700 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/25 hover:-translate-y-0.5"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="inline-flex items-center px-6 py-2.5 bg-gray-900 text-white font-medium rounded-full hover:bg-gray-800 transition-all duration-300 hover:shadow-lg hover:shadow-gray-900/25 hover:-translate-y-0.5"
+                >
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
 
@@ -99,14 +120,23 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Right: Login & Menu Toggle */}
+            {/* Right: Login/Logout & Menu Toggle */}
             <div className="flex items-center space-x-3">
-              <Link
-                href="/login"
-                className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300"
-              >
-                Sign In
-              </Link>
+              {session ? (
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-full hover:bg-red-700 transition-all duration-300"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300"
+                >
+                  Sign In
+                </Link>
+              )}
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -158,7 +188,6 @@ export default function Navbar() {
               >
                 Admin
               </Link>
-
             </div>
           </div>
         </div>

@@ -1,7 +1,18 @@
-
+"use client"
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation"
 
 export default function AdminPage() {
+    const router = useRouter();
+    const { data: session } = useSession();
+
+   
+    if (!session) {
+      router.push("/login");
+      return null;
+    }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-white flex items-center justify-center px-4">
       <div className="w-full max-w-6xl">
