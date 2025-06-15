@@ -1,48 +1,73 @@
-import React from "react";
+"use client";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ApiLoading from "@/components/Home/ApiLoading";
+import ApiError from "./ApiError";
+import useFetchData from "@/hooks/useFetchData";
 import Image from "next/image";
 
+
 function HeroSection() {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    arrows: true,
+  };
+
+  const { data: slider, loading, error } = useFetchData("/api/herosection");
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center text-gray-600 h-56 md:h-96 ">
+        <ApiLoading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center text-gray-600 h-56 md:h-96 ">
+      <ApiError error={error}/>
+      </div>
+    );
+  }
+
+  if (slider.length === 0) {
+    return (
+      <div>
+        <div className="bg-white shadow-lg rounded-2xl p-8 text-center border border-gray-200">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            No Slides Available
+          </h2>
+          <p className="text-gray-500 mb-4">
+            We couldn't find any hero images to display right now.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className="carousel w-full">
-        <div id="item1" className="carousel-item w-full relative h-96">
-          <Image
-            src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
-            alt="Carousel image 1"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        <div id="item2" className="carousel-item w-full relative h-96">
-          <Image
-            src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp"
-            alt="Carousel image 2"
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div id="item3" className="carousel-item w-full relative h-96">
-          <Image
-            src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp"
-            alt="Carousel image 3"
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div id="item4" className="carousel-item w-full relative h-96">
-          <Image
-            src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp"
-            alt="Carousel image 4"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
-      <div className="flex w-full justify-center gap-2 py-2">
-      
-      </div>
-    </>
+    <div className="w-full h-56 md:h-96 rounded-2xl ">
+      <Slider {...settings}>
+        {slider.map((item, index) => (
+          <div key={index}>
+            <Image
+              src={item.image}
+              alt={item.name}
+              className="w-full h-56 md:h-96 object-cover rounded-2xl"
+              width={500}
+              height={500}
+            />
+          </div>
+        ))}
+      </Slider>
+    </div>
   );
 }
 

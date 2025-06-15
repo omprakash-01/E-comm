@@ -35,12 +35,12 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100"
+          ? "bg-white/95 backdrop-blur-md shadow-sm "
           : "bg-white/90 backdrop-blur-sm"
       }`}
     >
-      <nav className="w-full shadow-sm border border-b bg-white ">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+      <nav className="w-full shadow-md  bg-white ">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Desktop Layout */}
           <div className="hidden md:flex items-center justify-between h-20">
             {/* Left: Logo */}
@@ -61,26 +61,20 @@ export default function Navbar() {
             {/* Center: Nav Links */}
             <div className="flex items-center space-x-12">
               <Link
-                href="/cloths"
+                href="/"
                 className="relative text-gray-700 font-medium tracking-wide transition-all duration-300 hover:text-gray-900 group"
               >
-                Clothing
+                Home
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link
-                href="/electronics"
+                href="/admin"
                 className="relative text-gray-700 font-medium tracking-wide transition-all duration-300 hover:text-gray-900 group"
               >
-                Electronics
+                Admin
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link
-                href="/household"
-                className="relative text-gray-700 font-medium tracking-wide transition-all duration-300 hover:text-gray-900 group"
-              >
-                Home & Living
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
+
             </div>
 
             {/* Right: Login Button */}
@@ -151,26 +145,20 @@ export default function Navbar() {
           <div className="px-6 py-6 bg-white/95 backdrop-blur-md border-t border-gray-100">
             <div className="space-y-4">
               <Link
-                href="/cloths"
+                href="/"
                 className="block text-gray-700 font-medium tracking-wide hover:text-gray-900 transition-colors duration-300"
                 onClick={() => setIsOpen(false)}
               >
-                Clothing
+                Home
               </Link>
               <Link
-                href="/electronics"
+                href="/admin"
                 className="block text-gray-700 font-medium tracking-wide hover:text-gray-900 transition-colors duration-300"
                 onClick={() => setIsOpen(false)}
               >
-                Electronics
+                Admin
               </Link>
-              <Link
-                href="/household"
-                className="block text-gray-700 font-medium tracking-wide hover:text-gray-900 transition-colors duration-300"
-                onClick={() => setIsOpen(false)}
-              >
-                Home & Living
-              </Link>
+
             </div>
           </div>
         </div>

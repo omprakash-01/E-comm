@@ -1,4 +1,12 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import withFlowbiteReact from "flowbite-react/plugin/nextjs";
 
-export default nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+
+  images: {
+    unoptimized: true,
+    domains: ["images.pexels.com"],
+  },
+};
+
+export default withFlowbiteReact(nextConfig);
